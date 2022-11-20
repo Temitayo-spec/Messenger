@@ -3,7 +3,7 @@ import { messageType } from '../typings';
 const fetcher = async (url: string) => {
   const res = await fetch(url);
   const data = await res.json();
-  const messages: messageType[] = Object.values(data);
+  const messages: messageType[] = data.parsedMessages;
   return messages;
 };
 

@@ -12,10 +12,8 @@ const MessageInput = () => {
 
   console.log(data);
 
-  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
+  const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(message);
-
     if (!message) return;
 
     const newMessage = message;
@@ -39,19 +37,24 @@ const MessageInput = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ messageData }),
-      });
-      const data = await res.json();
-      console.log(data);
+      }).then((res) => res.json());
+      return [res.message, ...data!];
     };
     uploadMessage();
     setMessage('');
+
+    // update the messages in the UI
+    await mutate(uploadMessage, {
+      optimisticData: [messageData, ...data!],
+      rollbackOnError: true,
+    }); // mutate the data to show the new message
   };
 
   return (
-    <footer>
+    <footer className="bg-white">
       <form
         onSubmit={sendMessage}
-        className="flex fixed bottom-0 w-full mx-auto px-5 py-5 border-t border-gray-100 space-x-3"
+        className="bg-white flex fixed bottom-0 w-full mx-auto px-5 py-5 border-t border-gray-100 space-x-3 z-50"
       >
         <input
           className="flex-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent px-5 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
