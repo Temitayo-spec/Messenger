@@ -23,7 +23,6 @@ const MessageComponent = ({ message }: Props) => {
         <p className="text-[0.65rem] px-[2px] pb-[2px] text-red-400">
           {message.username}
         </p>
-
         <div className="flex items-end">
           <div className="px-3 py-2 rounded-lg w-fit text-white bg-red-400">
             <p>{message.message}</p>
