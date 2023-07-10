@@ -5,7 +5,6 @@ import LogoutButton from './LogoutButton';
 
 const Header = () => {
   const session = true;
-
   if (session) {
     return (
       <header className="sticky top-0 z-50 bg-white flex justify-center p-8 shadow-md">
@@ -18,7 +17,6 @@ const Header = () => {
               width={40}
               alt="avatar"
             />
-
             <div>
               <p className="text-blue-400">Logged in as:</p>
               <p className="font-bold text-lg">Temitayo</p>
@@ -44,7 +42,6 @@ const Header = () => {
           />
           <p className="text-blue-400">Welcome to Meta Messenger</p>
         </div>
-
         <Link
           href="/auth/signin"
           className="bg-blue-500 hover:bg-blue-700 py-2 px-4 text-white font-bold rounded"
