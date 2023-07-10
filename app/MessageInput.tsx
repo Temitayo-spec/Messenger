@@ -1,4 +1,4 @@
-'use client'; // is a special import that tells Snowpack to load this file in the browser. This is how we can use React in the browser without any build step. Snowpack will take care of that for us.
+'use client'; 
 import { FormEvent, useState } from 'react';
 import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
