@@ -4,17 +4,20 @@ import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import { fetchMessages } from '../lib/fetchMessages';
 import { messageType } from '../typings';
+import type { Session } from 'next-auth';
 
-const MessageInput = () => {
+type Props = {
+  session: Session | null;
+};
+
+const MessageInput = ({ session }: Props) => {
   const [message, setMessage] = useState('');
 
   const { data, error, mutate } = useSWR('/api/getMessages', fetchMessages);
 
-  console.log(data);
-
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!message) return;
+    if (!message || !session) return;
 
     const newMessage = message;
     const id = uuidv4(); // generate a unique id for each message
@@ -24,9 +27,9 @@ const MessageInput = () => {
       id,
       message: newMessage,
       createdAt: Date.now(),
-      username: 'Temitayo',
-      avatar: 'https://links.papareact.com/jne',
-      email: 'olawanletemitayo@gmail.com',
+      username: session?.user?.name!,
+      avatar: session?.user?.image!,
+      email: session?.user?.email!,
     };
 
     // send the message to the server
@@ -62,6 +65,7 @@ const MessageInput = () => {
           placeholder="Type a message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={!session}
         />
         <button
           className="bg-blue-500 hover:bg-blue-700 py-2 px-4 text-white font-bold rounded disabled:opacity-50  disabled:cursor-not-allowed"

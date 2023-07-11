@@ -1,14 +1,11 @@
 import './globals.css';
 import Header from './Header';
-import Providers from './providers';
-import { getServerSession } from 'next-auth/next';
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
   return (
     <html lang="en">
       {/*
@@ -17,10 +14,8 @@ export default async function RootLayout({
       */}
       <head />
       <body>
-        <Providers session={session}>
-          <Header />
-          {children}
-        </Providers>
+        <Header />
+        {children}
       </body>
     </html>
   );

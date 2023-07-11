@@ -7,7 +7,9 @@ type Props = {
 
 const SignInComponent = ({ providers }: Props) => {
   return (
-    <div>
+    <div 
+      className="flex flex-col items-center justify-center py-2"
+    >
       {Object.values(providers!).map((provider) => (
         <div key={provider.name}>
           <button

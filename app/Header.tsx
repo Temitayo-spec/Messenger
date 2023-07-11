@@ -2,9 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import LogoutButton from './LogoutButton';
+import { getServerSession } from 'next-auth/next';
 
-const Header = () => {
-  const session = true;
+const Header =  async () => {
+  const session = await getServerSession();
   if (session) {
     return (
       <header className="sticky top-0 z-50 bg-white p-4 shadow-sm w-full">
@@ -12,14 +13,14 @@ const Header = () => {
           <div className="cursor-pointer flex items-center space-x-2">
             <Image
               className="rounded-full object-contain cursor-pointer mx-2"
-              src="https://links.papareact.com/jne"
+              src={session?.user?.image!}
               height={40}
               width={40}
               alt="profile_picture"
             />
             <div>
               <p className="text-blue-400">Logged in as:</p>
-              <p className="font-bold text-lg">Temitayo</p>
+              <p className="font-bold text-lg">{ session?.user?.name}</p>
             </div>
           </div>
 
@@ -31,7 +32,7 @@ const Header = () => {
     );
   }
   return (
-    <header className="sticky top-0 z-50 bg-white flex justify-center p-10 shadow-md">
+    <header className="sticky top-0 z-50 bg-white flex justify-center p-10 shadow-sm">
       <div className="flex flex-col space-y-5 items-center justify-center">
         <div className="flex item-center space-x-2 mt-4">
           <Image
