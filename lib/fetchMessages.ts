@@ -7,7 +7,7 @@ const fetcher = async (url: string) => {
   return messages;
 };
 
-export const getMessages = async () => {
+export const fetchMessages = async () => {
   const messages = await fetcher('/api/getMessages');
   return messages;
 };

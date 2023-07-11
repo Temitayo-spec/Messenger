@@ -7,15 +7,15 @@ const Header = () => {
   const session = true;
   if (session) {
     return (
-      <header className="sticky top-0 z-50 bg-white flex justify-center p-8 shadow-md">
-        <div className="flex w-full justify-between">
+      <header className="sticky top-0 z-50 bg-white p-4 shadow-sm w-full">
+        <div className="flex w-full justify-between items-center">
           <div className="cursor-pointer flex items-center space-x-2">
             <Image
               className="rounded-full object-contain cursor-pointer mx-2"
               src="https://links.papareact.com/jne"
               height={40}
               width={40}
-              alt="avatar"
+              alt="profile_picture"
             />
             <div>
               <p className="text-blue-400">Logged in as:</p>

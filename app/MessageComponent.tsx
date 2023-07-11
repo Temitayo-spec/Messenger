@@ -7,9 +7,10 @@ type Props = {
 };
 
 const MessageComponent = ({ message }: Props) => {
+  const isUser = true;
   return (
-    <div className="flex items-center">
-      <div className="flex-shrink-0">
+    <div className={`flex w-fit items-center ${isUser && 'ml-auto'}`}>
+      <div className={`flex-shrink-0 ${isUser && 'order-2'}`}>
         <Image
           className="rounded-full mx-2"
           height={50}
@@ -20,11 +21,17 @@ const MessageComponent = ({ message }: Props) => {
         />
       </div>
       <div>
-        <p className="text-[0.65rem] px-[2px] pb-[2px] text-red-400">
+        <p
+          className={`text-[0.65rem] px-[2px] pb-[2px] ${
+            isUser ? 'text-blue-400 text-right' : 'text-red-400 text-left'
+          }`}
+        >
           {message.username}
         </p>
         <div className="flex items-end">
-          <div className="px-3 py-2 rounded-lg w-fit text-white bg-red-400">
+          <div className={`px-3 py-1 rounded-lg w-fit text-white ${
+            isUser ? 'bg-blue-400 ml-auto order-2' : 'bg-red-400'
+          }`}>
             <p>{message.message}</p>
             <div />
 

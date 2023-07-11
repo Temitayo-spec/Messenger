@@ -23,7 +23,7 @@ export default async function handler(
 
   const newMessage = {
     ...messageData,
-    // replace timestamp withthe timestamp of the server
+    // replace timestamp with the timestamp of the server
     createdAt: Date.now(),
   };
 
@@ -32,6 +32,7 @@ export default async function handler(
     return;
   }
 
+  // push to upstash redis db
   await redis.hset('messages', messageData.id, JSON.stringify(newMessage));
 
   res.status(200).json({ message: newMessage });

@@ -1,14 +1,14 @@
-'use client'; 
+'use client';
 import { FormEvent, useState } from 'react';
 import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
-import { getMessages } from '../lib/getMessages';
+import { fetchMessages } from '../lib/fetchMessages';
 import { messageType } from '../typings';
 
 const MessageInput = () => {
   const [message, setMessage] = useState('');
 
-  const { data, error, mutate } = useSWR('/api/getMessages', getMessages);
+  const { data, error, mutate } = useSWR('/api/getMessages', fetchMessages);
 
   console.log(data);
 
@@ -31,7 +31,7 @@ const MessageInput = () => {
 
     // send the message to the server
     const uploadMessage = async () => {
-      const res = await fetch('/api/messages', {
+      const res = await fetch('/api/addMessages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
