@@ -1,21 +1,50 @@
-'use client'; // is a special import that tells Snowpack to load this file in the browser. This is how we can use React in the browser without any build step. Snowpack will take care of that for us.
+'use client';
 
+import { useEffect } from 'react';
 import useSWR from 'swr';
 import { fetchMessages } from '../lib/fetchMessages';
+import { clientPusher } from '../lib/pusher';
 import { messageType } from '../typings';
 import MessageComponent from './MessageComponent';
 
-const MessageList = () => {
+interface Props {
+  initialMessages: messageType[];
+}
+
+const MessageList = ({ initialMessages }: Props) => {
   const {
     data: messages,
     error,
     mutate,
   } = useSWR<messageType[]>('/api/getMessages', fetchMessages);
+
+  useEffect(() => {
+    const channel = clientPusher.subscribe('messages');
+    channel.bind('new-message', async (newMessage: messageType) => {
+      // if the message is already in the list, don't add it again
+      if (messages?.find((message) => message.id === newMessage.id)) return;
+
+      if (messages) {
+        mutate(fetchMessages, {
+          optimisticData: [newMessage, ...messages!],
+          rollbackOnError: true,
+        });
+      } else {
+        mutate(fetchMessages);
+      }
+    });
+
+    return () => {
+      clientPusher.unsubscribe('messages');
+      channel.unbind_all();
+    };
+  }, [messages, mutate]);
+
   return (
     <div className="space-y-5 px-5 pt-8 pb-32 max-w-2xl xl:max-w-4xl mx-auto">
       {
         // display the messages
-        messages?.map((message) => (
+        (messages || initialMessages)?.map((message) => (
           <MessageComponent key={message.id} message={message} />
         ))
       }
