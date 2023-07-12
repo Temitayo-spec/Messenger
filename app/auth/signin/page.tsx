@@ -6,7 +6,7 @@ const page = async () => {
   const providers = await getProviders();
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 min-h-screen">
       <div>
         <Image
           className="rounded-full mx-2 object-cover"

@@ -3,6 +3,7 @@ import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 import { getServerSession } from 'next-auth/next';
 import Providers from './providers';
+import Header from './Header';
 
 export default async function Home() {
   const data = await fetch(
@@ -18,6 +19,8 @@ export default async function Home() {
   return (
     <Providers session={session}>
       <main>
+        <Header />
+
         {/* Message List */}
         <MessageList initialMessages={messages} />
         {/* Message Input */}

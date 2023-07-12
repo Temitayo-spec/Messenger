@@ -1,11 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LogoutButton from './LogoutButton';
-import { getServerSession } from 'next-auth/next';
+// import { getServerSession } from 'next-auth/next';
+// import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 
-const Header =  async () => {
-  const session = await getServerSession();
+const Header = () => {
+  const { data: session, status } = useSession();
+
   if (session) {
     return (
       <header className="sticky top-0 z-50 bg-white p-4 shadow-sm w-full">
@@ -20,7 +25,7 @@ const Header =  async () => {
             />
             <div>
               <p className="text-blue-400">Logged in as:</p>
-              <p className="font-bold text-lg">{ session?.user?.name}</p>
+              <p className="font-bold text-lg">{session?.user?.name}</p>
             </div>
           </div>
 
@@ -31,6 +36,7 @@ const Header =  async () => {
       </header>
     );
   }
+
   return (
     <header className="sticky top-0 z-50 bg-white flex justify-center p-10 shadow-sm">
       <div className="flex flex-col space-y-5 items-center justify-center">
